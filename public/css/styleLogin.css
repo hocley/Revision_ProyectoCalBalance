@@ -11,6 +11,7 @@ body {
     flex-direction: column;
     align-items: center;
     background-color: #f5f5f5;
+    min-height: 100vh;
 }
 
 /* Encabezado */
@@ -25,7 +26,7 @@ header {
 }
 
 .logo {
-    height: 100px;
+    height: 50px;
 }
 
 nav a {
@@ -45,26 +46,35 @@ nav a {
     padding: 40px 0;
 }
 
-/* Fondo con patrón y logo */
+/* Fondo con patrón de verduras */
 .background-pattern {
     width: 100%;
-    max-width: 600px;
-    background-image: url('FondoLogin.jpg'); /* Imagen del fondo de verduras */
+    max-width: 800px;
+    background-image: url('../resources/fondoverduras.jpg'); /* Imagen del fondo de verduras */
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
-    padding: 40px 20px;
+    padding: 60px 20px;
     text-align: center;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
     position: relative;
 }
 
+/* Logo centrado encima del fondo */
 .main-logo {
-    height: 150px;
-    margin: 20px 0;
+    height: 200px;
+    margin-bottom: 20px;
+    background-color: white;
+    padding: 10px;
+    border-radius: 50%;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
     position: relative;
-    z-index: 1; /* Asegura que el logo esté encima del fondo */
+    z-index: 1;
 }
 
 /* Formulario de inicio de sesión */
@@ -72,16 +82,30 @@ nav a {
     display: flex;
     flex-direction: column;
     align-items: center;
+    width: 100%;
+    max-width: 300px;
+    background-color: rgba(255, 255, 255, 0.9); /* Fondo blanco semi-transparente */
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
     margin-top: 20px;
     z-index: 1;
 }
 
+.login-form h3 {
+    font-size: 1.5em;
+    color: #333;
+    margin-bottom: 15px;
+}
+
 .login-form label {
-    display: none; /* Ocultamos el texto de las etiquetas para simplificar el diseño */
+    color: #333; /* Color oscuro para el texto de las etiquetas */
+    font-weight: bold;
+    margin-top: 10px;
 }
 
 .login-form input {
-    width: 80%;
+    width: 90%; /* Ajusta el ancho de los campos de entrada dentro del formulario */
     padding: 10px;
     margin: 10px 0;
     border-radius: 5px;
@@ -89,7 +113,7 @@ nav a {
 }
 
 .login-form button {
-    width: 80%;
+    width: 90%;
     padding: 10px;
     background-color: #333;
     color: white;
