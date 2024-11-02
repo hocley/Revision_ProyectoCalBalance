@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CalBalance - Alimentos Consumidos</title>
+    <link rel="stylesheet" href="css/styleAlimento.css">
+</head>
+
+<body>
+    <!-- Encabezado -->
+    <header>
+        <img src="resources/CalbalanceNombre.png" alt="Logo de CalBalance" class="logo">
+        <nav>
+            <a href="#">Community</a>
+            <a href="#">Contact</a>
+        </nav>
+    </header>
+
+    <!-- Contenido principal -->
+    <main class="main-container">
+        <section class="content">
+            <h1>Alimentos Consumidos</h1>
+            <form class="food-form">
+                <label for="food">Alimento</label>
+                <input type="text" id="food" name="food" placeholder="Ej. Pollo, papas, etc" required>
+
+                <label for="portion">Porción (g/kg/taza)</label>
+                <input type="text" id="portion" name="portion" placeholder="Ej. 100 g, 1 kg" required>
+
+                <label for="calories">Calorías</label>
+                <input type="text" id="calories" name="calories" placeholder="Ej. 20 cal" required>
+
+                <label for="meal-type">Tipo de Comida</label>
+                <input type="text" id="meal-type" name="meal-type" placeholder="Ej. Desayuno, Almuerzo, Cena, Snack" required>
+
+                <label for="date">Fecha</label>
+                <input type="text" id="date" name="date" placeholder="Ej. dd/mm/yy" required>
+
+                <label for="time">Hora</label>
+                <input type="text" id="time" name="time" placeholder="Ej. 00:00" required>
+
+                <button type="submit">Registrar Alimento</button>
+            </form>
+        </section>
+    </main>
+
+    <!-- Pie de página -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-logo">
+                <img src="resources/CalbalanceNombre.png" alt="CalBalance Logo" class="logo">
+                <div class="social-icons">
+                    <a href="#"><img src="resources/instagram_icon.png" alt="Instagram"></a>
+                    <a href="#"><img src="resources/X_icon.jpg" alt="X"></a>
+                    <a href="#"><img src="resources/youtube_icon.png" alt="YouTube"></a>
+                    <a href="#"><img src="resources/linkedin_icon.png" alt="LinkedIn"></a>
+                </div>
+            </div>
+            <div class="footer-info">
+                <h3>Sobre Nosotros</h3>
+                <p>Misión</p>
+                <p>Visión</p>
+                <p>Historia</p>
+            </div>
+            <div class="footer-contact">
+                <h3>Contactanos</h3>
+                <p>099986625</p>
+                <p>calbalance@gmail.com</p>
+                <p>02-3205487</p>
+            </div>
+        </div>
+    </footer>
+</body>
+
+</html>
