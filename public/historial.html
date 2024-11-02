@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CalBalance - Historial de Consumo</title>
+    <link rel="stylesheet" href="css/styleHistorial.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> <!-- Incluye Chart.js para los gráficos -->
+</head>
+
+<body>
+    <header>
+        <img src="resources/CalbalanceNombre.png" alt="Logo de CalBalance" class="logo">
+        <nav>
+            <a href="#">Community</a>
+            <a href="#">Contact</a>
+        </nav>
+    </header>
+
+    <main class="main-container">
+        <section class="sidebar">
+            <h2>Historial de consumo</h2>
+            <div class="view-options">
+                <button id="weekly-view">Resumen Semanal</button>
+                <button id="monthly-view">Resumen Mensual</button>
+            </div>
+            <div class="consumption-summary">
+                <canvas id="caloriesChart"></canvas> <!-- Gráfico de calorías consumidas vs recomendadas -->
+            </div>
+            <ul class="consumption-list">
+                <li><input type="checkbox"> Día 1 <span>Description</span></li>
+                <li><input type="checkbox"> Día 2 <span>Description</span></li>
+                <li><input type="checkbox"> Label <span>Description</span></li>
+            </ul>
+        </section>
+
+        <section class="content">
+            <div class="cards-container">
+                <!-- Tarjetas de consumo por día o semana aquí -->
+            </div>
+        </section>
+    </main>
+
+    <script>
+        // Configuración del gráfico de calorías
+        const ctx = document.getElementById('caloriesChart').getContext('2d');
+        const caloriesChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'],
+                datasets: [
+                    {
+                        label: 'Calorías Consumidas',
+                        data: [2000, 1800, 2100, 1900, 2200, 1750, 1950],
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        fill: false
+                    },
+                    {
+                        label: 'Calorías Recomendadas',
+                        data: [2000, 2000, 2000, 2000, 2000, 2000, 2000],
+                        borderColor: 'rgba(255, 99, 132, 1)',
+                        borderDash: [5, 5],
+                        fill: false
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>
+<footer>
+    <div class="footer-content">
+        <div class="footer-logo">
+            <img src="resources/CalbalanceNombre.png" alt="CalBalance Logo" class="logo">
+            <div class="social-icons">
+                <a href="#"><img src="resources/instagram_icon.png" alt="Instagram"></a>
+                <a href="#"><img src="resources/X_icon.jpg" alt="X"></a>
+                <a href="#"><img src="resources/youtube_icon.png" alt="YouTube"></a>
+                <a href="#"><img src="resources/linkedin_icon.png" alt="LinkedIn"></a>
+            </div>
+        </div>
+        <div class="footer-info">
+            <h3>Sobre Nosotros</h3>
+            <p>Misión</p>
+            <p>Visión</p>
+            <p>Historia</p>
+        </div>
+        <div class="footer-contact">
+            <h3>Contactanos</h3>
+            <p>099986625</p>
+            <p>calbalance@gmail.com</p>
+            <p>02-3205487</p>
+        </div>
+    </div>
+</footer>
