@@ -20,10 +20,13 @@
 
     <main class="main-container">
         <section class="sidebar">
-            <h2>Historial de consumo</h2>
+            <div class="header-sidebar">
+                <h2>Historial de consumo</h2>
+                <button id="new-entry" class="view-button">New</button> <!-- Botón en la esquina superior derecha -->
+            </div>
             <div class="view-options">
-                <button id="weekly-view">Resumen Semanal</button>
-                <button id="monthly-view">Resumen Mensual</button>
+                <button id="weekly-view" class="view-button">Resumen Semanal</button>
+                <button id="monthly-view" class="view-button">Resumen Mensual</button>
             </div>
             <div class="consumption-summary">
                 <canvas id="caloriesChart"></canvas> <!-- Gráfico de calorías consumidas vs recomendadas -->
@@ -40,6 +43,35 @@
                 <!-- Tarjetas de consumo por día o semana aquí -->
             </div>
         </section>
+
+        <!-- Ventana emergente de Registro de Alimentos -->
+        <div id="food-register-popup" class="food-register-popup">
+            <div class="food-register-content">
+                <span id="close-popup" class="close">&times;</span>
+                <h1>Alimentos Consumidos</h1>
+                <form class="food-form">
+                    <label for="food">Alimento</label>
+                    <input type="text" id="food" name="food" placeholder="Ej. Pollo, papas, etc" required>
+
+                    <label for="portion">Porción (g/kg/taza)</label>
+                    <input type="text" id="portion" name="portion" placeholder="Ej. 100 g, 1 kg" required>
+
+                    <label for="calories">Calorías</label>
+                    <input type="text" id="calories" name="calories" placeholder="Ej. 20 cal" required>
+
+                    <label for="meal-type">Tipo de Comida</label>
+                    <input type="text" id="meal-type" name="meal-type" placeholder="Ej. Desayuno, Almuerzo, Cena, Snack" required>
+
+                    <label for="date">Fecha</label>
+                    <input type="text" id="date" name="date" placeholder="Ej. dd/mm/yy" required>
+
+                    <label for="time">Hora</label>
+                    <input type="text" id="time" name="time" placeholder="Ej. 00:00" required>
+
+                    <button type="submit" class="view-button">Registrar Alimento</button>
+                </form>
+            </div>
+        </div>
     </main>
 
     <script>
@@ -74,17 +106,35 @@
                 }
             }
         });
+
+        // Manejo de la ventana emergente para registro de alimentos
+        const popup = document.getElementById('food-register-popup');
+        const newEntryButton = document.getElementById('new-entry');
+        const closePopup = document.getElementById('close-popup');
+
+        newEntryButton.addEventListener('click', () => {
+            popup.style.display = 'flex';
+        });
+
+        closePopup.addEventListener('click', () => {
+            popup.style.display = 'none';
+        });
+
+        window.addEventListener('click', (event) => {
+            if (event.target == popup) {
+                popup.style.display = 'none';
+            }
+        });
     </script>
 </body>
 
-</html>
 <footer>
     <div class="footer-content">
         <div class="footer-logo">
             <img src="resources/CalbalanceNombre.png" alt="CalBalance Logo" class="logo">
             <div class="social-icons">
-                <a href="#"><img src="resources/instagram_icon.png" alt="Instagram"></a>
                 <a href="#"><img src="resources/X_icon.jpg" alt="X"></a>
+                <a href="#"><img src="resources/instagram_icon.png" alt="Instagram"></a>
                 <a href="#"><img src="resources/youtube_icon.png" alt="YouTube"></a>
                 <a href="#"><img src="resources/linkedin_icon.png" alt="LinkedIn"></a>
             </div>
@@ -96,10 +146,13 @@
             <p>Historia</p>
         </div>
         <div class="footer-contact">
-            <h3>Contactanos</h3>
+            <h3>Contáctanos</h3>
             <p>099986625</p>
             <p>calbalance@gmail.com</p>
             <p>02-3205487</p>
         </div>
     </div>
 </footer>
+
+
+</html>

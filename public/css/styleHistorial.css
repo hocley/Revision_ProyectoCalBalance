@@ -14,6 +14,21 @@ body {
     min-height: 100vh;
 }
 
+/* Botones estilo */
+.view-button {
+    padding: 10px;
+    background-color: #333;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.view-button:hover {
+    background-color: #555;
+}
+
 /* Encabezado */
 header {
     width: 100%;
@@ -42,7 +57,8 @@ nav a {
     display: flex;
     justify-content: center;
     align-items: flex-start;
-    padding: 40px 0;
+    padding: 40px 20px;
+    background-color: #f5f5f5;
 }
 
 /* Sidebar */
@@ -53,139 +69,70 @@ nav a {
     border-right: 1px solid #ddd;
 }
 
-.sidebar h2 {
-    font-size: 1.5em;
+.header-sidebar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Ventana emergente de registro de alimentos */
+.food-register-popup {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.food-register-content {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    width: 90%;
+    max-width: 400px;
+    text-align: left;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.food-register-content h1 {
+    font-size: 1.8em;
+    font-weight: bold;
     color: #333;
     margin-bottom: 20px;
 }
 
-.filters {
-    margin-bottom: 20px;
-}
-
-.filter-item {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 10px;
-}
-
-.filter-btn {
-    background: none;
-    border: none;
-    font-size: 1em;
-    cursor: pointer;
-}
-
-.consumption-list,
-.food-list ul {
-    list-style: none;
-    margin-bottom: 20px;
-}
-
-.calories-range {
-    display: flex;
-    align-items: center;
-    margin-bottom: 20px;
-}
-
-.calories-range input[type="range"] {
-    margin: 0 10px;
-}
-
-.food-list label {
-    font-weight: bold;
-}
-
-/* Contenido principal */
-.content {
-    width: 75%;
-    padding: 20px;
-}
-
-.search-bar {
-    display: flex;
-    align-items: center;
-    margin-bottom: 20px;
-}
-
-.search-bar input {
-    width: 100%;
-    padding: 8px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    margin-right: 10px;
-}
-
-.cards-container {
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    gap: 20px;
-}
-
-.card {
+.food-form {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    padding: 10px;
-    background-color: #f9f9f9;
-    text-align: center;
+    gap: 15px;
 }
 
-.card-image {
-    width: 100%;
-    height: 100px;
-    background-color: #e0e0e0;
-    border-radius: 8px;
-    margin-bottom: 10px;
-}
-
-.card-info p {
+.food-form label {
     font-weight: bold;
+    color: #333;
+    font-size: 0.9em;
 }
 
-.new-entry-btn {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    background-color: #333;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 50%;
-    font-size: 20px;
-    cursor: pointer;
-}
-
-/* Botones de visualización semanal/mensual */
-.view-options {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 20px;
-}
-
-.view-options button {
+.food-form input {
     padding: 10px;
-    background-color: #333;
-    color: white;
-    border: none;
+    border: 1px solid #ddd;
     border-radius: 5px;
+    font-size: 1em;
+    color: #666;
+}
+
+.close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 1.5em;
     cursor: pointer;
-}
-
-.consumption-summary {
-    width: 100%;
-    padding: 20px;
-    background-color: #ffffff;
-    border-radius: 8px;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-    margin-bottom: 20px;
-}
-
-#caloriesChart {
-    max-width: 100%;
+    color: #666;
 }
 /* Pie de página */
 footer {
@@ -233,8 +180,11 @@ footer {
 .footer-info h3, .footer-contact h3 {
     font-weight: bold;
     margin-bottom: 10px;
+    font-size: 1em;
 }
 
 .footer-info p, .footer-contact p {
     margin: 5px 0;
+    font-size: 0.9em;
+    color: #333;
 }
