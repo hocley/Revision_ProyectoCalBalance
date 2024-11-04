@@ -1,23 +1,60 @@
 const userModel = require('../models/userModel');
 
+// Registro de usuario
 exports.registerUser = (req, res) => {
     const { nombre_completo, correo, edad, genero, altura, nivel_actividad, password } = req.body;
 
     userModel.createUser(nombre_completo, correo, edad, genero, altura, nivel_actividad, password, (err, result) => {
         if (err) {
+            console.error('Detalles del error:', err);
             return res.status(500).json({ error: 'Error al registrar usuario' });
         }
-        res.status(201).json({ message: 'Usuario registrado exitosamente', userId: result.insertId });
+
+        req.session.user = {
+            id: result.insertId,
+            nombre_completo: nombre_completo,
+            correo: correo
+        };
+
+        res.json({ success: true });
     });
 };
 
-exports.getUserById = (req, res) => {
-    const userId = req.params.id;
-
-    userModel.getUserById(userId, (err, user) => {
+// Inicio de sesión
+exports.loginUser = (req, res) => {
+    const { correo, password } = req.body;
+    userModel.getUserByEmailAndPassword(correo, password, (err, user) => {
         if (err) {
-            return res.status(500).json({ error: 'Error al obtener usuario' });
+            return res.status(500).json({ error: 'Error al iniciar sesión' });
         }
-        res.status(200).json(user);
+        if (user) {
+            req.session.user = {
+                id: user.usuario_id,
+                nombre_completo: user.nombre_completo,
+                correo: user.correo
+            };
+            res.json({ success: true });
+        } else {
+            res.status(401).json({ success: false, error: 'Credenciales inválidas' });
+        }
+    });
+};
+
+// Verificación de sesión para obtener el perfil del usuario
+exports.getProfile = (req, res) => {
+    if (req.session.user) {
+        res.json({ message: `Bienvenido ${req.session.user.nombre_completo}`, user: req.session.user });
+    } else {
+        res.status(401).json({ error: 'No has iniciado sesión' });
+    }
+};
+
+// Cierre de sesión
+exports.logoutUser = (req, res) => {
+    req.session.destroy((err) => {
+        if (err) {
+            return res.status(500).json({ error: 'Error al cerrar la sesión' });
+        }
+        res.json({ success: true, message: 'Sesión cerrada correctamente' });
     });
 };

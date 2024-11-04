@@ -1,5 +1,6 @@
 const foodModel = require('../models/foodModel');
 
+// Registro de consumo de alimentos
 exports.registerFoodConsumption = (req, res) => {
     const { usuario_id, alimento, porcion, calorias } = req.body;
 
@@ -11,6 +12,7 @@ exports.registerFoodConsumption = (req, res) => {
     });
 };
 
+// Obtener historial de consumo de alimentos
 exports.getConsumptionHistory = (req, res) => {
     const userId = req.params.userId;
 

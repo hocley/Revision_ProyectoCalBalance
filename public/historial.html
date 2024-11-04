@@ -15,6 +15,8 @@
         <nav>
             <a href="#">Community</a>
             <a href="#">Contact</a>
+            <!-- Cambia el enlace de cierre de sesión para usar JavaScript -->
+            <a href="#" id="logoutLink">Sign out</a>
         </nav>
     </header>
 
@@ -75,6 +77,40 @@
     </main>
 
     <script>
+        // Verificación de sesión
+        fetch('/api/users/perfil')
+            .then(response => {
+                if (!response.ok) {
+                    window.location.href = 'index.html';
+                }
+            })
+            .catch(error => {
+                console.error('Error al verificar sesión:', error);
+            });
+
+        // Manejo de cierre de sesión
+        document.getElementById("logoutLink").addEventListener("click", async function(event) {
+            event.preventDefault(); // Evita que el enlace recargue la página
+
+            try {
+                const response = await fetch("/api/users/logout", {
+                    method: "GET"
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    // Redirige a index.html después de cerrar sesión correctamente
+                    window.location.href = "index.html";
+                } else {
+                    alert("Error al cerrar sesión. Inténtalo de nuevo.");
+                }
+            } catch (error) {
+                console.error("Error al cerrar sesión:", error);
+                alert("Error al cerrar sesión. Por favor, inténtalo de nuevo.");
+            }
+        });
+
         // Configuración del gráfico de calorías
         const ctx = document.getElementById('caloriesChart').getContext('2d');
         const caloriesChart = new Chart(ctx, {
@@ -100,9 +136,7 @@
             options: {
                 responsive: true,
                 scales: {
-                    y: {
-                        beginAtZero: true
-                    }
+                    y: { beginAtZero: true }
                 }
             }
         });
@@ -153,6 +187,5 @@
         </div>
     </div>
 </footer>
-
 
 </html>

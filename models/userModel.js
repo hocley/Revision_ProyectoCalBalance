@@ -5,7 +5,10 @@ exports.createUser = (nombre_completo, correo, edad, genero, altura, nivel_activ
     db.query(sql, [nombre_completo, correo, edad, genero, altura, nivel_actividad, password], callback);
 };
 
-exports.getUserById = (id, callback) => {
-    const sql = `SELECT * FROM usuarios WHERE usuario_id = ?`;
-    db.query(sql, [id], callback);
+exports.getUserByEmailAndPassword = (correo, password, callback) => {
+    const sql = `SELECT * FROM usuarios WHERE correo = ? AND password = ?`;
+    db.query(sql, [correo, password], (err, results) => {
+        if (err) return callback(err);
+        callback(null, results[0]);
+    });
 };
