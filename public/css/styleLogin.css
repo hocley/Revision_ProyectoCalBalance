@@ -50,7 +50,8 @@ nav a {
 .background-pattern {
     width: 100%;
     max-width: 800px;
-    background-image: url('../resources/fondoverduras.jpg'); /* Imagen del fondo de verduras */
+    background-image: url('../resources/fondoverduras.jpg');
+    /* Imagen del fondo de verduras */
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
@@ -84,7 +85,8 @@ nav a {
     align-items: center;
     width: 100%;
     max-width: 300px;
-    background-color: rgba(255, 255, 255, 0.9); /* Fondo blanco semi-transparente */
+    background-color: rgba(255, 255, 255, 0.9);
+    /* Fondo blanco semi-transparente */
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
@@ -99,13 +101,15 @@ nav a {
 }
 
 .login-form label {
-    color: #333; /* Color oscuro para el texto de las etiquetas */
+    color: #333;
+    /* Color oscuro para el texto de las etiquetas */
     font-weight: bold;
     margin-top: 10px;
 }
 
 .login-form input {
-    width: 90%; /* Ajusta el ancho de los campos de entrada dentro del formulario */
+    width: 90%;
+    /* Ajusta el ancho de los campos de entrada dentro del formulario */
     padding: 10px;
     margin: 10px 0;
     border-radius: 5px;
@@ -178,8 +182,10 @@ footer {
     border-radius: 8px;
     width: 90%;
     max-width: 400px;
-    max-height: 80%; /* Limita la altura al 80% de la pantalla */
-    overflow-y: auto; /* Habilita el desplazamiento si el contenido supera la altura */
+    max-height: 80%;
+    /* Limita la altura al 80% de la pantalla */
+    overflow-y: auto;
+    /* Habilita el desplazamiento si el contenido supera la altura */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     position: relative;
 }

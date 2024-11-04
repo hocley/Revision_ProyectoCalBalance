@@ -62,7 +62,8 @@
                     <input type="text" id="calories" name="calories" placeholder="Ej. 20 cal" required>
 
                     <label for="meal-type">Tipo de Comida</label>
-                    <input type="text" id="meal-type" name="meal-type" placeholder="Ej. Desayuno, Almuerzo, Cena, Snack" required>
+                    <input type="text" id="meal-type" name="meal-type" placeholder="Ej. Desayuno, Almuerzo, Cena, Snack"
+                        required>
 
                     <label for="date">Fecha</label>
                     <input type="text" id="date" name="date" placeholder="Ej. dd/mm/yy" required>
@@ -89,7 +90,7 @@
             });
 
         // Manejo de cierre de sesión
-        document.getElementById("logoutLink").addEventListener("click", async function(event) {
+        document.getElementById("logoutLink").addEventListener("click", async function (event) {
             event.preventDefault(); // Evita que el enlace recargue la página
 
             try {

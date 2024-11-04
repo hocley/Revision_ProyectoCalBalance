@@ -126,18 +126,21 @@ footer {
     height: 24px;
 }
 
-.footer-info, .footer-contact {
+.footer-info,
+.footer-contact {
     text-align: left;
     color: #000000;
 }
 
-.footer-info h3, .footer-contact h3 {
+.footer-info h3,
+.footer-contact h3 {
     font-weight: bold;
     margin-bottom: 10px;
     font-size: 1em;
 }
 
-.footer-info p, .footer-contact p {
+.footer-info p,
+.footer-contact p {
     margin: 5px 0;
     font-size: 0.9em;
     color: #333;

@@ -137,16 +137,19 @@ footer {
     height: 24px;
 }
 
-.footer-info, .footer-contact {
+.footer-info,
+.footer-contact {
     text-align: left;
 }
 
-.footer-info h3, .footer-contact h3 {
+.footer-info h3,
+.footer-contact h3 {
     font-weight: bold;
     margin-bottom: 10px;
 }
 
-.footer-info p, .footer-contact p {
+.footer-info p,
+.footer-contact p {
     margin: 5px 0;
     font-size: 0.9em;
 }
