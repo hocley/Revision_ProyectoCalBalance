@@ -6,7 +6,92 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CalBalance - Historial de Consumo</title>
     <link rel="stylesheet" href="css/styleHistorial.css">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> <!-- Incluye Chart.js para los gráficos -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        /* Estilos básicos */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 0;
+        }
+
+        .main-container {
+            display: flex;
+            transition: all 0.3s ease;
+        }
+
+        /* Estilos de la sidebar */
+        .sidebar {
+            width: 30%;
+            padding: 20px;
+            background-color: #ffffff;
+            border-right: 1px solid #ddd;
+        }
+
+        .summary-section {
+            display: none;
+            width: 70%;
+            padding: 20px;
+            background-color: #ffffff;
+            margin-left: 10px;
+            border-radius: 8px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .summary-section.show {
+            display: block;
+        }
+
+        /* Estilos de las tarjetas */
+        .day-card-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .day-card {
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 15px;
+            width: calc(33.33% - 10px);
+            box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .day-card h3 {
+            font-size: 1.2em;
+            margin-bottom: 10px;
+        }
+
+        .day-card table {
+            width: 100%;
+            font-size: 0.9em;
+            border-collapse: collapse;
+        }
+
+        .day-card th, .day-card td {
+            padding: 8px;
+            border: 1px solid #ddd;
+            text-align: center;
+        }
+
+        /* Botón */
+        .view-button {
+            padding: 10px 20px;
+            background-color: #333;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+
+        .view-button:hover {
+            background-color: #555;
+        }
+    </style>
 </head>
 
 <body>
@@ -20,7 +105,8 @@
     </header>
 
     <main class="main-container">
-        <section class="sidebar">
+        <!-- Sidebar con historial de consumo -->
+        <section class="sidebar" id="sidebar">
             <div class="header-sidebar">
                 <h2>Historial de consumo</h2>
                 <button id="new-entry" class="view-button">New</button>
@@ -39,64 +125,53 @@
             </ul>
         </section>
 
-        <section class="content">
-            <div class="cards-container">
-                <!-- Tarjetas de consumo por día o semana aquí -->
+        <!-- Sección de resumen que aparecerá al hacer clic en los botones -->
+        <section class="summary-section" id="summary-section">
+            <h2 id="summary-title">Resumen</h2>
+            <div class="day-card-container" id="day-card-container">
+                <!-- Las tarjetas de los días se generarán dinámicamente aquí -->
             </div>
+            <button id="back-button" class="view-button">Regresar</button>
         </section>
-
-        <!-- Ventana emergente de Registro de Alimentos -->
-        <div id="food-register-popup" class="food-register-popup">
-            <div class="food-register-content">
-                <span id="close-popup" class="close">&times;</span>
-                <h1>Registrar Consumo de Alimentos</h1>
-                <form class="food-form" id="food-form">
-                    <label for="food-select">Selecciona un Alimento</label>
-                    <select id="food-select" name="food">
-                        <option value="" disabled selected>Seleccione un alimento</option>
-                    </select>
-
-                    <label for="portion">Porción (g/kg/taza)</label>
-                    <input type="number" id="portion" name="portion" placeholder="Ej. 100" required>
-
-                    <label for="calories">Calorías</label>
-                    <input type="text" id="calories" name="calories" readonly>
-
-                    <label for="meal-type">Tipo de Comida</label>
-                    <select id="meal-type" name="meal-type" required>
-                        <option value="" disabled selected>Seleccione el tipo de comida</option>
-                        <option value="desayuno">Desayuno</option>
-                        <option value="almuerzo">Almuerzo</option>
-                        <option value="cena">Cena</option>
-                        <option value="snack">Snack</option>
-                    </select>
-
-                    <button type="submit" class="view-button">Registrar Alimento</button>
-                </form>
-            </div>
-        </div>
     </main>
+    <!-- Ventana emergente de Registro de Alimentos -->
+    <div id="food-register-popup" class="food-register-popup">
+        <div class="food-register-content">
+            <span id="close-popup" class="close">&times;</span>
+            <h1>Registrar Consumo de Alimentos</h1>
+            <form class="food-form" id="food-form">
+                <label for="food-select">Selecciona un Alimento</label>
+                <select id="food-select" name="food">
+                    <option value="" disabled selected>Seleccione un alimento</option>
+                </select>
+
+                <label for="portion">Porción (g/kg/taza)</label>
+                <input type="number" id="portion" name="portion" placeholder="Ej. 100" required>
+
+                <label for="calories">Calorías</label>
+                <input type="text" id="calories" name="calories" readonly>
+
+                <label for="meal-type">Tipo de Comida</label>
+                <select id="meal-type" name="meal-type" required>
+                    <option value="" disabled selected>Seleccione el tipo de comida</option>
+                    <option value="desayuno">Desayuno</option>
+                    <option value="almuerzo">Almuerzo</option>
+                    <option value="cena">Cena</option>
+                    <option value="snack">Snack</option>
+                </select>
+
+                <button type="submit" class="view-button">Registrar Alimento</button>
+            </form>
+        </div>
+    </div>
 
     <script>
-        // Verificación de sesión
-        fetch('/api/users/perfil')
-            .then(response => {
-                if (!response.ok) {
-                    window.location.href = 'index.html';
-                }
-            })
-            .catch(error => {
-                console.error('Error al verificar sesión:', error);
-            });
-
         // Manejo de cierre de sesión
         document.getElementById("logoutLink").addEventListener("click", async function (event) {
             event.preventDefault();
-
             try {
                 const response = await fetch("/api/users/logout", { method: "GET" });
                 const result = await response.json();
-
                 if (result.success) {
                     window.location.href = "index.html";
                 } else {
@@ -106,6 +181,29 @@
                 console.error("Error al cerrar sesión:", error);
                 alert("Error al cerrar sesión. Por favor, inténtalo de nuevo.");
             }
+        });
+
+        // Mostrar sección de resumen al hacer clic en "Resumen Semanal" o "Resumen Mensual"
+        document.getElementById("weekly-view").addEventListener("click", function() {
+            showSummary("Resumen Semanal", 1); // Reemplaza "1" con el ID real del usuario
+        });
+
+        document.getElementById("monthly-view").addEventListener("click", function() {
+            showSummary("Resumen Mensual", 1); // Reemplaza "1" con el ID real del usuario
+        });
+
+        function showSummary(title, userId) {
+            document.getElementById("summary-title").textContent = title;
+            loadConsumptionHistory(userId); // Cargar datos del historial
+            document.getElementById("summary-section").classList.add("show");
+            document.getElementById("sidebar").classList.add("compressed");
+            document.querySelector(".main-container").classList.add("shift-left");
+        }
+
+        document.getElementById("back-button").addEventListener("click", function() {
+            document.getElementById("summary-section").classList.remove("show");
+            document.getElementById("sidebar").classList.remove("compressed");
+            document.querySelector(".main-container").classList.remove("shift-left");
         });
 
         // Configuración del gráfico de calorías
@@ -137,104 +235,163 @@
                 }
             }
         });
+         // Mostrar ventana emergente de registro de alimentos
+         const popup = document.getElementById('food-register-popup');
+         const newEntryButton = document.getElementById('new-entry');
+         const closePopup = document.getElementById('close-popup');
+ 
+         newEntryButton.addEventListener('click', () => {
+             popup.classList.add('show');
+         });
+ 
+         closePopup.addEventListener('click', () => {
+             popup.classList.remove('show');
+         });
+ 
+         window.addEventListener('click', (event) => {
+             if (event.target == popup) {
+                 popup.classList.remove('show');
+             }
+         });
+         // Manejo de la ventana emergente para registro de alimentos
+    
+ 
+         newEntryButton.addEventListener('click', () => {
+             popup.style.display = 'flex';
+         });
+ 
+         closePopup.addEventListener('click', () => {
+             popup.style.display = 'none';
+         });
+ 
+         window.addEventListener('click', (event) => {
+             if (event.target == popup) {
+                 popup.style.display = 'none';
+             }
+         });
+ 
+         // Cargar lista de alimentos en el combobox
+         document.addEventListener("DOMContentLoaded", function() {
+             fetch("/api/alimentos")
+                 .then(response => response.json())
+                 .then(data => {
+                     const foodSelect = document.getElementById("food-select");
+                     data.forEach(alimento => {
+                         const option = document.createElement("option");
+                         option.value = alimento.alimento_id;
+                         option.textContent = `${alimento.nombre} - ${alimento.calorias_por_porcion} cal`;
+                         option.setAttribute("data-calorias", alimento.calorias_por_porcion);
+                         foodSelect.appendChild(option);
+                     });
+                 })
+                 .catch(error => console.error("Error al cargar alimentos:", error));
+         });
+ 
+         // Calcular y mostrar las calorías al cambiar porción o seleccionar alimento
+         document.getElementById("food-select").addEventListener("change", function() {
+             const selectedOption = this.selectedOptions[0];
+             const caloriasPorPorcion = parseInt(selectedOption.getAttribute("data-calorias")) || 0;
+             const porcion = parseInt(document.getElementById("portion").value) || 0;
+             document.getElementById("calories").value = (caloriasPorPorcion * porcion / 100).toFixed(2);
+         });
+ 
+         document.getElementById("portion").addEventListener("input", function() {
+             const foodSelect = document.getElementById("food-select");
+             const selectedOption = foodSelect.selectedOptions[0];
+             const caloriasPorPorcion = parseInt(selectedOption.getAttribute("data-calorias")) || 0;
+             const porcion = parseInt(this.value) || 0;
+             document.getElementById("calories").value = (caloriasPorPorcion * porcion / 100).toFixed(2);
+         });
+ 
+         // Registrar consumo de alimentos
+         document.getElementById("food-form").addEventListener("submit", function(event) {
+             event.preventDefault();
+             const usuario_id = 1; // Cambia esto al ID del usuario actual
+             const alimento = document.getElementById("food-select").value;
+             const porcion = document.getElementById("portion").value;
+             const calorias = document.getElementById("calories").value;
+ 
+             fetch("/api/register", {
+                 method: "POST",
+                 headers: { "Content-Type": "application/json" },
+                 body: JSON.stringify({ usuario_id, alimento, porcion, calorias })
+             })
+             .then(response => response.json())
+             .then(data => alert(data.message))
+             .catch(error => console.error("Error al registrar el alimento:", error));
+         });
 
-        // Manejo de la ventana emergente para registro de alimentos
-        const popup = document.getElementById('food-register-popup');
-        const newEntryButton = document.getElementById('new-entry');
-        const closePopup = document.getElementById('close-popup');
+        // Cargar historial de consumo y crear tarjetas por día
+        async function loadConsumptionHistory(userId) {
+            try {
+                const response = await fetch(`/api/foods/history/${userId}`);
+                const history = await response.json();
 
-        newEntryButton.addEventListener('click', () => {
-            popup.style.display = 'flex';
-        });
+                const container = document.getElementById("day-card-container");
+                container.innerHTML = ""; 
 
-        closePopup.addEventListener('click', () => {
-            popup.style.display = 'none';
-        });
+                // Agrupar datos por fecha
+                const groupedByDate = history.reduce((acc, item) => {
+                    if (!acc[item.fecha]) acc[item.fecha] = [];
+                    acc[item.fecha].push(item);
+                    return acc;
+                }, {});
 
-        window.addEventListener('click', (event) => {
-            if (event.target == popup) {
-                popup.style.display = 'none';
-            }
-        });
+                // Crear tarjeta para cada día
+                Object.keys(groupedByDate).forEach(date => {
+                    const dayCard = document.createElement("div");
+                    dayCard.classList.add("day-card");
+                    dayCard.innerHTML = `<h3>${date}</h3><table><thead><tr><th>Hora</th><th>Alimento</th><th>Cantidad</th><th>Calorías</th></tr></thead><tbody></tbody></table>`;
 
-        // Cargar lista de alimentos en el combobox
-        document.addEventListener("DOMContentLoaded", function() {
-            fetch("/api/alimentos")
-                .then(response => response.json())
-                .then(data => {
-                    const foodSelect = document.getElementById("food-select");
-                    data.forEach(alimento => {
-                        const option = document.createElement("option");
-                        option.value = alimento.alimento_id;
-                        option.textContent = `${alimento.nombre} - ${alimento.calorias_por_porcion} cal`;
-                        option.setAttribute("data-calorias", alimento.calorias_por_porcion);
-                        foodSelect.appendChild(option);
+                    const tbody = dayCard.querySelector("tbody");
+
+                    groupedByDate[date].forEach(item => {
+                        const row = document.createElement("tr");
+                        row.innerHTML = `
+                            <td>${item.hora}</td>
+                            <td>${item.alimento}</td>
+                            <td>${item.cantidad}</td>
+                            <td>${item.calorias_consumidas}</td>
+                        `;
+                        tbody.appendChild(row);
                     });
-                })
-                .catch(error => console.error("Error al cargar alimentos:", error));
-        });
 
-        // Calcular y mostrar las calorías al cambiar porción o seleccionar alimento
-        document.getElementById("food-select").addEventListener("change", function() {
-            const selectedOption = this.selectedOptions[0];
-            const caloriasPorPorcion = parseInt(selectedOption.getAttribute("data-calorias")) || 0;
-            const porcion = parseInt(document.getElementById("portion").value) || 0;
-            document.getElementById("calories").value = (caloriasPorPorcion * porcion / 100).toFixed(2);
-        });
+                    container.appendChild(dayCard);
+                });
+            } catch (error) {
+                console.error("Error al cargar historial de consumo:", error);
+            }
+        }
 
-        document.getElementById("portion").addEventListener("input", function() {
-            const foodSelect = document.getElementById("food-select");
-            const selectedOption = foodSelect.selectedOptions[0];
-            const caloriasPorPorcion = parseInt(selectedOption.getAttribute("data-calorias")) || 0;
-            const porcion = parseInt(this.value) || 0;
-            document.getElementById("calories").value = (caloriasPorPorcion * porcion / 100).toFixed(2);
-        });
-
-        // Registrar consumo de alimentos
-        document.getElementById("food-form").addEventListener("submit", function(event) {
-            event.preventDefault();
-            const usuario_id = 1; // Cambia esto al ID del usuario actual
-            const alimento = document.getElementById("food-select").value;
-            const porcion = document.getElementById("portion").value;
-            const calorias = document.getElementById("calories").value;
-            const mealType = document.getElementById("meal-type").value;
-
-            fetch("/api/register", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ usuario_id, alimento, porcion, calorias, mealType })
-            })
-            .then(response => response.json())
-            .then(data => alert(data.message))
-            .catch(error => console.error("Error al registrar el alimento:", error));
-        });
+        function renderSummaryCard(date, entries) {
+            const card = document.createElement("div");
+            card.className = "summary-card";
+            
+            const dateTitle = document.createElement("h4");
+            dateTitle.textContent = date;
+            card.appendChild(dateTitle);
+        
+            const table = document.createElement("table");
+            const headerRow = document.createElement("tr");
+            headerRow.innerHTML = "<th>Hora</th><th>Alimento</th><th>Cantidad</th><th>Calorías</th>";
+            table.appendChild(headerRow);
+        
+            entries.forEach(entry => {
+                const row = document.createElement("tr");
+                row.innerHTML = `
+                    <td>${entry.hora}</td>
+                    <td>${entry.alimento}</td>
+                    <td>${entry.cantidad}</td>
+                    <td>${entry.calorias}</td>
+                `;
+                table.appendChild(row);
+            });
+        
+            card.appendChild(table);
+            return card;
+        }
+        
     </script>
 </body>
-
-<footer>
-    <div class="footer-content">
-        <div class="footer-logo">
-            <img src="resources/CalbalanceNombre.png" alt="CalBalance Logo" class="logo">
-            <div class="social-icons">
-                <a href="#"><img src="resources/X_icon.jpg" alt="X"></a>
-                <a href="#"><img src="resources/instagram_icon.png" alt="Instagram"></a>
-                <a href="#"><img src="resources/youtube_icon.png" alt="YouTube"></a>
-                <a href="#"><img src="resources/linkedin_icon.png" alt="LinkedIn"></a>
-            </div>
-        </div>
-        <div class="footer-info">
-            <h3>Sobre Nosotros</h3>
-            <p>Misión</p>
-            <p>Visión</p>
-            <p>Historia</p>
-        </div>
-        <div class="footer-contact">
-            <h3>Contáctanos</h3>
-            <p>099986625</p>
-            <p>calbalance@gmail.com</p>
-            <p>02-3205487</p>
-        </div>
-    </div>
-</footer>
 
 </html>

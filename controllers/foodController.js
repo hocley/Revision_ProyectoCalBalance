@@ -30,7 +30,6 @@ exports.getFoodList = (req, res) => {
         if (err) {
             return res.status(500).json({ error: 'Error al obtener la lista de alimentos' });
         }
-        res.status(200).json(foods); // Asegúrate de que envía los datos como JSON
+        res.status(200).json(foods);
     });
 };
-
