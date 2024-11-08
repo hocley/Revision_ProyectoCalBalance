@@ -12,6 +12,7 @@ const app = express();
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static('public'));
+app.use('/api', foodRoutes); // Asocia todas las rutas de foodRoutes al prefijo /api
 
 // Configuración de la sesión
 app.use(session({
