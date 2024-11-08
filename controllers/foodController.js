@@ -33,3 +33,19 @@ exports.getFoodList = (req, res) => {
         res.status(200).json(foods);
     });
 };
+
+exports.getConsumptionHistory = (req, res) => {
+    const userId = req.params.userId;
+
+    // Verificar que el usuario autenticado está accediendo a su propio historial
+    if (req.session.user.id !== parseInt(userId, 10)) {
+        return res.status(403).json({ error: 'Acceso denegado' });
+    }
+
+    foodModel.getHistoryByUserId(userId, (err, history) => {
+        if (err) {
+            return res.status(500).json({ error: 'Error al obtener historial de consumo' });
+        }
+        res.status(200).json(history);
+    });
+};

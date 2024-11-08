@@ -71,7 +71,8 @@
             border-collapse: collapse;
         }
 
-        .day-card th, .day-card td {
+        .day-card th,
+        .day-card td {
             padding: 8px;
             border: 1px solid #ddd;
             text-align: center;
@@ -166,6 +167,23 @@
     </div>
 
     <script>
+        let userId;
+
+        // Obtener el userId del usuario autenticado
+        async function fetchUserId() {
+            const response = await fetch('/api/users/perfil');
+            const data = await response.json();
+            if (data.user) {
+                userId = data.user.id; // Guardar el ID del usuario autenticado
+                loadConsumptionHistory(userId); // Cargar el historial al obtener el userId
+            } else {
+                alert('Error al obtener el perfil del usuario');
+                window.location.href = 'index.html';
+            }
+        }
+
+        document.addEventListener("DOMContentLoaded", fetchUserId);
+
         // Manejo de cierre de sesión
         document.getElementById("logoutLink").addEventListener("click", async function (event) {
             event.preventDefault();
@@ -184,15 +202,15 @@
         });
 
         // Mostrar sección de resumen al hacer clic en "Resumen Semanal" o "Resumen Mensual"
-        document.getElementById("weekly-view").addEventListener("click", function() {
-            showSummary("Resumen Semanal", 1); // Reemplaza "1" con el ID real del usuario
+        document.getElementById("weekly-view").addEventListener("click", function () {
+            showSummary("Resumen Semanal");
         });
 
-        document.getElementById("monthly-view").addEventListener("click", function() {
-            showSummary("Resumen Mensual", 1); // Reemplaza "1" con el ID real del usuario
+        document.getElementById("monthly-view").addEventListener("click", function () {
+            showSummary("Resumen Mensual");
         });
 
-        function showSummary(title, userId) {
+        function showSummary(title) {
             document.getElementById("summary-title").textContent = title;
             loadConsumptionHistory(userId); // Cargar datos del historial
             document.getElementById("summary-section").classList.add("show");
@@ -200,7 +218,7 @@
             document.querySelector(".main-container").classList.add("shift-left");
         }
 
-        document.getElementById("back-button").addEventListener("click", function() {
+        document.getElementById("back-button").addEventListener("click", function () {
             document.getElementById("summary-section").classList.remove("show");
             document.getElementById("sidebar").classList.remove("compressed");
             document.querySelector(".main-container").classList.remove("shift-left");
@@ -235,91 +253,76 @@
                 }
             }
         });
-         // Mostrar ventana emergente de registro de alimentos
-         const popup = document.getElementById('food-register-popup');
-         const newEntryButton = document.getElementById('new-entry');
-         const closePopup = document.getElementById('close-popup');
- 
-         newEntryButton.addEventListener('click', () => {
-             popup.classList.add('show');
-         });
- 
-         closePopup.addEventListener('click', () => {
-             popup.classList.remove('show');
-         });
- 
-         window.addEventListener('click', (event) => {
-             if (event.target == popup) {
-                 popup.classList.remove('show');
-             }
-         });
-         // Manejo de la ventana emergente para registro de alimentos
-    
- 
-         newEntryButton.addEventListener('click', () => {
-             popup.style.display = 'flex';
-         });
- 
-         closePopup.addEventListener('click', () => {
-             popup.style.display = 'none';
-         });
- 
-         window.addEventListener('click', (event) => {
-             if (event.target == popup) {
-                 popup.style.display = 'none';
-             }
-         });
- 
-         // Cargar lista de alimentos en el combobox
-         document.addEventListener("DOMContentLoaded", function() {
-             fetch("/api/alimentos")
-                 .then(response => response.json())
-                 .then(data => {
-                     const foodSelect = document.getElementById("food-select");
-                     data.forEach(alimento => {
-                         const option = document.createElement("option");
-                         option.value = alimento.alimento_id;
-                         option.textContent = `${alimento.nombre} - ${alimento.calorias_por_porcion} cal`;
-                         option.setAttribute("data-calorias", alimento.calorias_por_porcion);
-                         foodSelect.appendChild(option);
-                     });
-                 })
-                 .catch(error => console.error("Error al cargar alimentos:", error));
-         });
- 
-         // Calcular y mostrar las calorías al cambiar porción o seleccionar alimento
-         document.getElementById("food-select").addEventListener("change", function() {
-             const selectedOption = this.selectedOptions[0];
-             const caloriasPorPorcion = parseInt(selectedOption.getAttribute("data-calorias")) || 0;
-             const porcion = parseInt(document.getElementById("portion").value) || 0;
-             document.getElementById("calories").value = (caloriasPorPorcion * porcion / 100).toFixed(2);
-         });
- 
-         document.getElementById("portion").addEventListener("input", function() {
-             const foodSelect = document.getElementById("food-select");
-             const selectedOption = foodSelect.selectedOptions[0];
-             const caloriasPorPorcion = parseInt(selectedOption.getAttribute("data-calorias")) || 0;
-             const porcion = parseInt(this.value) || 0;
-             document.getElementById("calories").value = (caloriasPorPorcion * porcion / 100).toFixed(2);
-         });
- 
-         // Registrar consumo de alimentos
-         document.getElementById("food-form").addEventListener("submit", function(event) {
-             event.preventDefault();
-             const usuario_id = 1; // Cambia esto al ID del usuario actual
-             const alimento = document.getElementById("food-select").value;
-             const porcion = document.getElementById("portion").value;
-             const calorias = document.getElementById("calories").value;
- 
-             fetch("/api/register", {
-                 method: "POST",
-                 headers: { "Content-Type": "application/json" },
-                 body: JSON.stringify({ usuario_id, alimento, porcion, calorias })
-             })
-             .then(response => response.json())
-             .then(data => alert(data.message))
-             .catch(error => console.error("Error al registrar el alimento:", error));
-         });
+
+        // Mostrar ventana emergente de registro de alimentos
+        const popup = document.getElementById('food-register-popup');
+        const newEntryButton = document.getElementById('new-entry');
+        const closePopup = document.getElementById('close-popup');
+
+        newEntryButton.addEventListener('click', () => {
+            popup.classList.add('show');
+        });
+
+        closePopup.addEventListener('click', () => {
+            popup.classList.remove('show');
+        });
+
+        window.addEventListener('click', (event) => {
+            if (event.target == popup) {
+                popup.classList.remove('show');
+            }
+        });
+
+        // Cargar lista de alimentos en el combobox
+        document.addEventListener("DOMContentLoaded", function () {
+            fetch("/api/alimentos")
+                .then(response => response.json())
+                .then(data => {
+                    const foodSelect = document.getElementById("food-select");
+                    data.forEach(alimento => {
+                        const option = document.createElement("option");
+                        option.value = alimento.alimento_id;
+                        option.textContent = `${alimento.nombre} - ${alimento.calorias_por_porcion} cal`;
+                        option.setAttribute("data-calorias", alimento.calorias_por_porcion);
+                        foodSelect.appendChild(option);
+                    });
+                })
+                .catch(error => console.error("Error al cargar alimentos:", error));
+        });
+
+        // Calcular y mostrar las calorías al cambiar porción o seleccionar alimento
+        document.getElementById("food-select").addEventListener("change", function () {
+            const selectedOption = this.selectedOptions[0];
+            const caloriasPorPorcion = parseInt(selectedOption.getAttribute("data-calorias")) || 0;
+            const porcion = parseInt(document.getElementById("portion").value) || 0;
+            document.getElementById("calories").value = (caloriasPorPorcion * porcion / 100).toFixed(2);
+        });
+
+        document.getElementById("portion").addEventListener("input", function () {
+            const foodSelect = document.getElementById("food-select");
+            const selectedOption = foodSelect.selectedOptions[0];
+            const caloriasPorPorcion = parseInt(selectedOption.getAttribute("data-calorias")) || 0;
+            const porcion = parseInt(this.value) || 0;
+            document.getElementById("calories").value = (caloriasPorPorcion * porcion / 100).toFixed(2);
+        });
+
+        // Registrar consumo de alimentos
+        document.getElementById("food-form").addEventListener("submit", function (event) {
+            event.preventDefault();
+            const alimento = document.getElementById("food-select").value;
+            const porcion = document.getElementById("portion").value;
+            const calorias = document.getElementById("calories").value;
+
+            // Usar el userId dinámico obtenido al cargar la página
+            fetch("/api/register", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ usuario_id: userId, alimento, porcion, calorias })
+            })
+                .then(response => response.json())
+                .then(data => alert(data.message))
+                .catch(error => console.error("Error al registrar el alimento:", error));
+        });
 
         // Cargar historial de consumo y crear tarjetas por día
         async function loadConsumptionHistory(userId) {
@@ -328,7 +331,7 @@
                 const history = await response.json();
 
                 const container = document.getElementById("day-card-container");
-                container.innerHTML = ""; 
+                container.innerHTML = "";
 
                 // Agrupar datos por fecha
                 const groupedByDate = history.reduce((acc, item) => {
@@ -362,35 +365,6 @@
                 console.error("Error al cargar historial de consumo:", error);
             }
         }
-
-        function renderSummaryCard(date, entries) {
-            const card = document.createElement("div");
-            card.className = "summary-card";
-            
-            const dateTitle = document.createElement("h4");
-            dateTitle.textContent = date;
-            card.appendChild(dateTitle);
-        
-            const table = document.createElement("table");
-            const headerRow = document.createElement("tr");
-            headerRow.innerHTML = "<th>Hora</th><th>Alimento</th><th>Cantidad</th><th>Calorías</th>";
-            table.appendChild(headerRow);
-        
-            entries.forEach(entry => {
-                const row = document.createElement("tr");
-                row.innerHTML = `
-                    <td>${entry.hora}</td>
-                    <td>${entry.alimento}</td>
-                    <td>${entry.cantidad}</td>
-                    <td>${entry.calorias}</td>
-                `;
-                table.appendChild(row);
-            });
-        
-            card.appendChild(table);
-            return card;
-        }
-        
     </script>
 </body>
 
